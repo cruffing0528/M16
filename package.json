@@ -1,0 +1,32 @@
+{
+  "name": "beginning",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "Claire Ruffing",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "start": "nodemon app.js"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.28.6",
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.5",
+    "@babel/preset-react": "^7.28.5",
+    "babel-loader": "^10.1.1",
+    "nodemon": "^3.1.14",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "webpack": "^5.106.2",
+    "webpack-cli": "^7.0.2"
+  },
+  "dependencies": {
+    "body-parser": "^2.2.2",
+    "dotenv": "^17.4.2",
+    "mongoose": "^8.23.1",
+    "react-router-dom": "^7.15.0"
+  }
+}
