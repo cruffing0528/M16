@@ -75,6 +75,35 @@ function EmployeeRow(props) {
   );
 }
 
+// class EmployeeRow extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = { 
+//       modalVisible: false 
+//     };
+//   }
+
+//   render(props) {
+//     const employee = props.employee;
+//     function onDeleteClick() {
+//       // UPDATE HERE
+//       alert(`Delete employee with ID ${employee._id}`);
+//       this.props.deleteEmployee(this.props.employee._id);
+//     }
+//     return (
+//       <tr>
+//         <td><Link to={`/edit/${props.employee._id}`}>{props.employee.name}</Link></td>
+//         <td>{props.employee.extension}</td>
+//         <td>{props.employee.email}</td>
+//         <td>{props.employee.title}</td>
+//         <td>{props.employee.dateHired.toLocaleDateString()}</td>
+//         <td>{props.employee.currentlyEmployed ? 'Yes' : 'No'}</td>
+//         <td><Button onClick={onDeleteClick} variant="danger" size="sm">X</Button></td>
+//       </tr>
+//     );
+//   }
+// }
+
 export default class EmployeeList extends React.Component {
   constructor() {
     super();
@@ -136,9 +165,9 @@ export default class EmployeeList extends React.Component {
   render() {
     return (
       <React.Fragment>
+        <EmployeeAdd createEmployee={this.createEmployee} />
         <EmployeeFilter />
         <EmployeeTable employees={this.state.employees} deleteEmployee={this.deleteEmployee} />
-        <EmployeeAdd createEmployee={this.createEmployee} />
       </React.Fragment>
     );
   }

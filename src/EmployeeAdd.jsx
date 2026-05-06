@@ -4,14 +4,23 @@ import { Button, Container, Row, Col, Modal } from "react-bootstrap";
 export default class EmployeeAdd extends React.Component {
   constructor() {
     super();
-    this.setState = { 
-      modalVisible: false 
+    this.state = {
+      modalVisible: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleShowModal = this.handleShowModal.bind(this);
+    this.handleHideModal = this.handleHideModal.bind(this);
+  }
+
+  handleShowModal() {
+    this.setState({ modalVisible: true });
+  }
+
+  handleHideModal() {
+    this.setState({ modalVisible: false });
   }
 
   handleSubmit(e) {
-    e.preventDefault();
     const form = document.forms.employeeAdd;
     const employee = {
       name: form.name.value,
@@ -24,35 +33,56 @@ export default class EmployeeAdd extends React.Component {
     form.extension.value = "";
     form.email.value = "";
     form.title.value = "";
+    this.setState({ modalVisible: false });
   }
 
   render() {
     return (
-      <Container fluid>
-        <form name="employeeAdd" onSubmit={e => this.handleSubmit(e)}>
-          <Row>
-            <Col md={3}>Name:</Col>
-            <Col md="auto"><input type="text" name="name" /></Col>
-          </Row>
-          <Row>
-            <Col md={3}>Extension:</Col>
-            <Col md="auto"><input type="text" name="extension" maxLength={4} /></Col>
-          </Row>
-          <Row>
-            <Col md={3}>Email:</Col>
-            <Col md="auto"><input type="text" name="email" /></Col>
-          </Row>
-          <Row>
-            <Col md={3}>Title:</Col>
-            <Col md="auto"><input type="text" name="title" /></Col>
-          </Row>
-          <Row>
-            <Button type="submit" variant="primary" size="sm" className="mt-4">
-              Add Employee
+      <React.Fragment>
+        <div className="addEmployee">
+          <Button variant="primary" size="sm" onClick={this.handleShowModal}>
+            New Employee
+          </Button>
+        </div>
+
+        <Modal show={this.state.modalVisible} onHide={this.handleHideModal} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Add New Employee</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Container fluid>
+              <form name="employeeAdd">
+                <Row>
+                  <Col md={3}>Name:</Col>
+                  <Col md="auto"><input type="text" name="name" /></Col>
+                </Row>
+                <Row>
+                  <Col md={3}>Extension:</Col>
+                  <Col md="auto"><input type="text" name="extension" maxLength={4} /></Col>
+                </Row>
+                <Row>
+                  <Col md={3}>Email:</Col>
+                  <Col md="auto"><input type="text" name="email" /></Col>
+                </Row>
+                <Row>
+                  <Col md={3}>Title:</Col>
+                  <Col md="auto"><input type="text" name="title" /></Col>
+                </Row>
+              </form>
+            </Container>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              type="submit"
+              variant="success"
+              size="sm"
+              className="mt-4"
+              onClick={this.handleSubmit}>
+                Add Employee
             </Button>
-          </Row>
-        </form>
-      </Container>
+          </Modal.Footer>
+        </Modal>
+      </React.Fragment>
     )
   }
 }
