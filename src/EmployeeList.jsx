@@ -57,7 +57,7 @@ function EmployeeRow(props) {
   return (
     <tr>
       <td><Link to={`/edit/${props.employee._id}`}>EDIT</Link></td>
-      <td>{props.employee._id}</td>
+      {/* <td>{props.employee._id}</td> */}
       <td>{props.employee.name}</td>
       <td>{props.employee.extension}</td>
       <td>{props.employee.email}</td>
