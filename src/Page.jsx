@@ -1,15 +1,16 @@
 import React from "react";
 import Contents from "./Contents.jsx";
-
+import { NavLink } from "react-router-dom";
 
 function NavBar() {
+    const Separator = () => <span> | </span>;
     return (
         <nav>
-            <a href="/">Home</a>
-            { ' | '}
-            <a href="/#/employees">All Employees</a>
-            { ' | '}
-            <a href="/#/report">Reports</a>
+            <NavLink end to="/">Home</NavLink>
+            <Separator />
+            <NavLink to="/employees">All Employees</NavLink>
+            <Separator />
+            <NavLink to="/reports">Reports</NavLink>
         </nav>
     )
 }

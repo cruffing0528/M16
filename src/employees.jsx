@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { HashRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 // import EmployeeList from "./EmployeeList.jsx";
 import Page from "./Page.jsx";
 

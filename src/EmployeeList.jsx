@@ -1,7 +1,7 @@
 import EmployeeAdd from "./EmployeeAdd.jsx";
 import EmployeeFilter from "./EmployeeFilter.jsx";
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 function EmployeeTable(props) {
   // Get the URL
@@ -56,7 +56,7 @@ function EmployeeRow(props) {
   }
   return (
     <tr>
-      <td><a href={`/#/edit/${props.employee._id}`}>EDIT</a></td>
+      <td><Link to={`/edit/${props.employee._id}`}>EDIT</Link></td>
       <td>{props.employee._id}</td>
       <td>{props.employee.name}</td>
       <td>{props.employee.extension}</td>
