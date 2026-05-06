@@ -1,17 +1,17 @@
 import React from "react";
 import Contents from "./Contents.jsx";
-import { NavLink } from "react-router-dom";
+import { Navbar, Nav } from "react-bootstrap";
 
 function NavBar() {
     const Separator = () => <span> | </span>;
     return (
-        <nav>
-            <NavLink end to="/">Home</NavLink>
-            <Separator />
-            <NavLink to="/employees">All Employees</NavLink>
-            <Separator />
-            <NavLink to="/reports">Reports</NavLink>
-        </nav>
+        <Navbar bg="dark" variant="dark">
+            <Navbar.Brand href="/">Employee Management Application</Navbar.Brand>
+            <Nav className="mr-auto">
+                <Nav.Link href="/employees">All Employees</Nav.Link>
+                <Nav.Link href="/reports">Reports</Nav.Link>
+            </Nav>
+        </Navbar>
     )
 }
 

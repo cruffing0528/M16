@@ -1,9 +1,15 @@
 import React from "react";
+import { Button, Card, Container, Row, Col, Alert } from 'react-bootstrap';
 
 export default class EmployeeEdit extends React.Component {
     constructor() {
         super();
-        this.state = { employee: [] };
+        this.state = { 
+            employee: [],
+            alertVisible: false,
+            alertColor: "success",
+            alertMessage: "",
+        };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -19,8 +25,8 @@ export default class EmployeeEdit extends React.Component {
                 data.employee.dateHired = new Date(data.employee.dateHired);
                 this.setState({ employee: data.employee });
             })
-            .catch(err => {console.log("Error fetching data from server:", err)}
-        );
+            .catch(err => { console.log("Error fetching data from server:", err) }
+            );
     }
 
     handleSubmit(e) {
@@ -36,7 +42,7 @@ export default class EmployeeEdit extends React.Component {
         let url = `/api/employees/${id}`;
         fetch(url, {
             method: 'PATCH',
-            headers: { 
+            headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 'charset': 'utf-8'
@@ -49,36 +55,68 @@ export default class EmployeeEdit extends React.Component {
                 "currentlyEmployed": currentlyEmployed
             }),
         })
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById("message").innerHTML = data.msg;
-        })
-        .catch(err => {console.log("Error updating employee:", err)});
+            .then(response => response.json())
+            .then(data => {
+                this.setState({
+                    alertVisible: true,
+                    alertMessage: data.msg,
+                });
+            })
+            .catch(err => { console.log("Error updating employee:", err) });
 
     }
 
     render() {
         return (
-            <form name="employeeUpdate" onSubmit={this.handleSubmit}>
-                <h1>Edit {this.state.employee.name}</h1>
-                ID:<br />
-                <input type="text" name="id" defaultValue={this.state.employee._id} readOnly="readOnly" /><br />
-                Name:<br />
-                <input type="text" name="name" defaultValue={this.state.employee.name} /><br />
-                Extension:<br />
-                <input type="text" name="extension" maxLength={4} defaultValue={this.state.employee.extension} /><br />
-                Email:<br />
-                <input type="text" name="email" defaultValue={this.state.employee.email} /><br />
-                Title:<br />
-                <input type="text" name="title" defaultValue={this.state.employee.title} /><br />
-                Date Hired:<br />
-                <input type="text" name="dateHired" defaultValue={this.state.employee.dateHired} readOnly="readOnly" /><br />
-                Currently Employed:<br />
-                <input type="checkbox" name="currentlyEmployed" defaultChecked={this.state.employee.currentlyEmployed} /><br />
-                <br /><br />
-                <input type="submit" value="Update" />
-                <p id="message"></p>
-            </form>
+            <Card>
+                <Card.Header as="h5">Edit {this.state.employee.name}</Card.Header>
+                <Card.Body>
+                    <Card.Text>
+                        <Container fluid>
+                            <form name="employeeUpdate" onSubmit={this.handleSubmit}>
+                                <Row>
+                                    <Col md={2}>ID:</Col>
+                                    <Col md="auto"><input type="text" name="id" defaultValue={this.state.employee._id} readOnly="readOnly" /></Col>
+                                </Row>
+                                <Row>
+                                    <Col md={2}>Name:</Col>
+                                    <Col md="auto"><input type="text" name="name" defaultValue={this.state.employee.name} /></Col>
+                                </Row>
+                                <Row>
+                                    <Col md={2}>Extension:</Col>
+                                    <Col md="auto"><input type="text" name="extension" maxLength={4} defaultValue={this.state.employee.extension} /></Col>
+                                </Row>
+                                <Row>
+                                    <Col md={2}>Email:</Col>
+                                    <Col md="auto"><input type="text" name="email" defaultValue={this.state.employee.email} /></Col>
+                                </Row>
+                                <Row>
+                                    <Col md={2}>Title:</Col>
+                                    <Col md="auto"><input type="text" name="title" defaultValue={this.state.employee.title} /></Col>
+                                </Row>
+                                <Row>
+                                    <Col md={2}>Date Hired:</Col>
+                                    <Col md="auto"><input type="text" name="dateHired" defaultValue={this.state.employee.dateHired} readOnly="readOnly" /></Col>
+                                </Row>
+                                <Row>
+                                    <Col md={2}>Currently Employed:</Col>
+                                    <Col md="auto"><input type="checkbox" name="currentlyEmployed" defaultChecked={this.state.employee.currentlyEmployed} /></Col>
+                                </Row>
+                                <Button type="submit" variant="primary" size="sm" className="my-3">
+                                    Update Employee
+                                </Button>
+                                <Alert 
+                                    variant={this.state.alertColor} 
+                                    show={this.state.alertVisible} 
+                                    dismissible 
+                                    onClose={() => this.setState({ alertVisible: false })}>
+                                        {this.state.alertMessage}
+                                </Alert>
+                            </form>
+                        </Container>
+                    </Card.Text>
+                </Card.Body>
+            </Card>
         );
     }
 }

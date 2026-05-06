@@ -2,6 +2,7 @@ import EmployeeAdd from "./EmployeeAdd.jsx";
 import EmployeeFilter from "./EmployeeFilter.jsx";
 import React from "react";
 import { useLocation, Link } from "react-router-dom";
+import { Badge, Button, Table, Card, Modal } from 'react-bootstrap';
 
 function EmployeeTable(props) {
   // Get the URL
@@ -28,43 +29,48 @@ function EmployeeTable(props) {
       />);
 
   return (
-    <table className="bordered-table">
-      <thead>
-        <tr>
-          <th>Action</th>
-          <th>Name</th>
-          <th>Extension</th>
-          <th>Email</th>
-          <th>Title</th>
-          <th>Date Hired</th>
-          <th>Currently Employed?</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {employeeRows}
-      </tbody>
-    </table>
+    <Card>
+      <Card.Header as="h5">All Employees <Badge bg="secondary">{props.employees.length}</Badge></Card.Header>
+      <Card.Body>
+        <Card.Text>
+          <Table striped bordered size="sm">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Extension</th>
+                <th>Email</th>
+                <th>Title</th>
+                <th>Date Hired</th>
+                <th>Currently Employed?</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {employeeRows}
+            </tbody>
+          </Table>
+        </Card.Text>
+      </Card.Body>
+    </Card>
   );
 }
 
 function EmployeeRow(props) {
   const employee = props.employee;
   function onDeleteClick() {
+    // UPDATE HERE
     alert(`Delete employee with ID ${employee._id}`);
     props.deleteEmployee(props.employee._id);
   }
   return (
     <tr>
-      <td><Link to={`/edit/${props.employee._id}`}>EDIT</Link></td>
-      {/* <td>{props.employee._id}</td> */}
-      <td>{props.employee.name}</td>
+      <td><Link to={`/edit/${props.employee._id}`}>{props.employee.name}</Link></td>
       <td>{props.employee.extension}</td>
       <td>{props.employee.email}</td>
       <td>{props.employee.title}</td>
       <td>{props.employee.dateHired.toLocaleDateString()}</td>
       <td>{props.employee.currentlyEmployed ? 'Yes' : 'No'}</td>
-      <td><button onClick={onDeleteClick}>DELETE</button></td>
+      <td><Button onClick={onDeleteClick} variant="danger" size="sm">X</Button></td>
     </tr>
   );
 }
@@ -84,7 +90,6 @@ export default class EmployeeList extends React.Component {
     fetch('/api/employees').
       then(response => response.json()).
       then(data => {
-        console.log("Total count of employees:", data.count);
         data.employees.forEach(employee => {
           employee.dateHired = new Date(employee.dateHired);
         });
@@ -108,7 +113,6 @@ export default class EmployeeList extends React.Component {
         newEmployee.employee.dateHired = new Date(newEmployee.employee.dateHired);
         const newEmployees = this.state.employees.concat(newEmployee.employee);
         this.setState({ employees: newEmployees });
-        console.log("Total count of employees:", newEmployees.length);
       })
       .catch(err => {
         console.log("Error creating employee:", err);
@@ -132,11 +136,8 @@ export default class EmployeeList extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <h1>Employee Management Application</h1>
         <EmployeeFilter />
-        <hr />
         <EmployeeTable employees={this.state.employees} deleteEmployee={this.deleteEmployee} />
-        <hr />
         <EmployeeAdd createEmployee={this.createEmployee} />
       </React.Fragment>
     );
